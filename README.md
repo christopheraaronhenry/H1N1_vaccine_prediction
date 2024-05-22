@@ -1,11 +1,16 @@
 # H1N1 Vaccine Prediction
 
 **Authors**: Christopher Henry
-**Date**: 5/13/24
+**Date**: 5/20/24
+
 
 ## Overview
 
 Our goal is to predict how likely individuals are to receive their H1N1 vaccine. We will do this using individuals' responses to a survey covering their opinions on illness and vaccines, socioeconomic background, and personal behaviors. For this approach we will apply two different models to the dataset of independent variables: 1) a logistic regression model, and 2) a decision tree model.
+
+
+## Business Problem
+There are many factors that can influence whether an individual chooses to receive a vaccination against a virus. Effective public health responses to viral outbreaks depend on finding ways to encourage a large fraction of individuals to receive vaccination in order to reduce community transmission. Through analysis of these survey data, our aim is to identify predictive factors of individuals' vaccination outcomes, in order to isolate key variables that can be exploited to steer public health vaccination campaigns in future outbreaks.
 
 
 ## Data Understanding
@@ -30,7 +35,7 @@ Decision tree modeling used an entropy-based approach to identify the variables 
 
 Key results highlight that:
 
-* A few variables were strong drivers of predictability of H1N1 vaccination status, including: 'doctor_recc_h1n1' (whether a doctor recommended the vaccine), 'opinion_h1n1_risk' (opinions about risk of getting sick without the vaccine), and 'seasonal_vaccine' (whether individuals received the annual flu vaccine)
+* A few variables were strong drivers of predictability of H1N1 vaccination status, including: 'doctor_recc_h1n1' (whether a doctor recommended the vaccine), 'opinion_h1n1_risk' (opinions about risk of getting sick without the vaccine), and 'seasonal_vaccine' (whether individuals received the annual flu vaccine). These variables should be targeted in future public health vaccination campaigns.
 
 * Logistic Regression models performed the best with >85% accuracy.
 * These models did the best with 10-14 optimally chosen variables. Adding further variables, or including nonlinear products of variables, yielded no further improvement in classification performance.
@@ -58,30 +63,34 @@ Individuals expressing greater concern over H1N1 risks had higher rates of vacci
 There was no further boost in performance by including additional variables in the logistic regression model.
 ![graph3](./images/cumulative_accuracy_withNvariables.jpg)
 
+### Regression coefficient weights highlight the most influential variables.
+'doctor_recc_h1n1' (whether a doctor recommended the vaccine), 'opinion_h1n1_risk' (opinions about risk of getting sick without the vaccine), and 'seasonal_vaccine' (whether individuals received the annual flu vaccine) all had strong weightings.
+![graph4](./images/logistic_roc_coefficients.jpg)
+
 ### ROC curves for the Logistic Regression model show good generalization from training to test data.
 
 The optimal regression model yields comparably high scores (area under the ROC curve) on both training and test data, indicating that the model does a good job of predicting the target variable and generalizing across data sets.
-![graph4](./images/logistic_roc_traintest.jpg)
+![graph5](./images/logistic_roc_traintest.jpg)
 
 ### Hyperparameter tuning of Decision Tree finds 20-24 max_features
 
 Cross-validated accuracy was best for larger numbers of features.
-![graph5](./images/decision_tree_max_features.jpg)
+![graph6](./images/decision_tree_max_features.jpg)
 
 ### Hyperparameter tuning of Decision Tree finds max_depth >=5
 
 Cross-validated accuracy was best for trees with a depth of 5 or greater.
-![graph6](./images/decision_tree_max_depth.jpg)
+![graph7](./images/decision_tree_max_depth.jpg)
 
 ### Architecture of optimal Decision Tree
 
 Shown is the architecture of the optimal Decision Tree. Early nodes corresponded to key variables ('doctor_recc_h1n1', 'opinion_h1n1_risk')
-![graph7](./images/decision_tree_final.jpg)
+![graph8](./images/decision_tree_final.jpg)
 
 ### ROC curves for the Decision Tree model show good generalization from training to test data.
 
 The optimal decision tree model yields similarly high scores (area under the ROC curve) on both training and test data, indicating that the model does a good job of predicting the target variable and generalizing across data sets. However, overall performance is slightly worse than with using the logistic regression model.
-![graph8](./images/decisiontree_roc_traintest.jpg)
+![graph9](./images/decisiontree_roc_traintest.jpg)
 
 
 
@@ -92,6 +101,15 @@ Both Logistic Regression and Decision Tree models could predict H1N1 vaccination
 Performance boosts were driven by a few key variables, but steadily grew with inclusion of the top 10-14 variables. Incorporation of nonlinear products in the regression model yielded negligible improvements.
 
 Hyperparameter tuning and cross-validation approaches identified optimal model parameters for both model classes that had comparable prediction performance (>85% and 84.8% classification accuracy for regression and decision tree models, respectively). These models had good performance, reasonably high F1 scores, and generalized similarly from training to test data, suggesting well-constrained model fits.
+
+## Recommendations
+
+Future public health vaccination campaigns should focus on a few key variables associated with successful vaccination:
+
+* Focus campaigns on getting internal medicine doctors to broadly recommend vaccination to the new virus
+* Strongly encourage individuals to get seasonal flu vaccines (as this was associated with H1N1 vaccine acceptance)
+* Broadly communicate risk and vaccine effectiveness to the novel virus (both correlate with vaccine acceptance)
+
 
 
 ## For More Information
